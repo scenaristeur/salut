@@ -100,6 +100,7 @@ class AppElement extends LitElement {
 
       // Optional parameters
       direction: 'horizontal',
+      allowTouchMove : false,
       //  loop: true,
 
       // If we need pagination
