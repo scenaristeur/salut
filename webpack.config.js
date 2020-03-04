@@ -6,7 +6,7 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'dist', 'archive'),
+    path: path.resolve(__dirname, 'dist'),
   },
   /*externals: {
   "@solid/query-ldflex": 'data',
