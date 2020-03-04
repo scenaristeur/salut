@@ -4,7 +4,8 @@ import { HelloAgent } from './agents/hello-agent.js';
 import Swiper from 'swiper';
 
 import './my-geolocation.js'
-
+import 'shighl-elements/dist/window/shighl-login-icon.js'
+import './store-location-element.js'
 
 class AppElement extends LitElement {
 
@@ -55,14 +56,63 @@ class AppElement extends LitElement {
 
     <div class="container-fluid" >
     <div class="col shadow-lg p-3 mt-3 ml-n1 mr-n1 bg-white" style="height:96vh;width:100vw;border-radius: 25px;">
+    <shighl-login-icon></shighl-login-icon>
 
     <!-- Slider main container -->
     <div class="swiper-container">
     <!-- Additional required wrapper -->
     <div class="swiper-wrapper">
     <!-- Slides -->
-    <div class="swiper-slide"><my-geolocation>Salut</my-geolocation></div>
-    <div class="swiper-slide">one</div>
+    <div class="swiper-slide">
+
+    <my-geolocation>Salut</my-geolocation>
+    <store-location-element name="StoreLocation"></store-location-element>
+
+
+    </div>
+    <div class="swiper-slide">
+    Todo list
+    <ul>
+
+    <li>
+    <div>
+    <input type="checkbox" id="scales" name="scales" checked>
+    <label for="scales">Solid Pod Login</label>
+    </div>
+    </li>
+
+    <li>
+    <div>
+    <input type="checkbox" id="scales" name="scales" >
+    <label for="scales">Store this location on user's POD public or/and private</label>
+    </div>
+    </li>
+
+    <li>
+    <div>
+    <input type="checkbox" id="scales" name="scales" >
+    <label for="scales">Register the user on Salut's pod https://salut.solid.community/</label>
+    </div>
+    </li>
+
+    <li>
+    <div>
+    <input type="checkbox" id="scales" name="scales" >
+    <label for="scales">Show user the distance to other users but not their location</label>
+    </div>
+    </li>
+
+    <li>
+    <div>
+    <input type="checkbox" id="scales" name="scales" >
+    <label for="scales">Another idea</label>
+    </div>
+    </li>
+    <li>
+    </li>
+    </ul>
+
+    </div>
 
     <div class="swiper-slide">two</div>
 

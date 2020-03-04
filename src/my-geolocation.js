@@ -3,8 +3,7 @@
 //https://nouvelle-techno.fr/actualites/2018/05/11/pas-a-pas-inserer-une-carte-openstreetmap-sur-votre-site
 //https://openlayers.org/en/latest/apidoc/module-ol_Map-Map.html#setTarget
 //https://openstreetmap.be/en/projects/howto/openlayers.html --> markers
-//import { LitElement, css,  html } from 'https://cdn.pika.dev/lit-element/^2.2.1';
-//import { HelloAgent } from '../js/agents/HelloAgent.js';
+
 import { LitElement, html } from 'lit-element';
 import { HelloAgent } from './agents/hello-agent.js';
 
@@ -131,13 +130,13 @@ class MyGeolocation extends LitElement {
 
 
     <!--<div class="col-xl-4 col-lg-5">-->
-    <div class="col-xl-4 col-lg-5 card shadow mb-4">
+  <!--  <div class="col-xl-4 col-lg-5 card shadow mb-4">-->
     <!-- Card Header - Dropdown -->
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
     <h6 class="m-0 font-weight-bold text-primary">Name : ${this.name}</h6>
     <button id="stopWatchBtn"   @click=${this.stopWatch}>Stop Watching Pos</button>
     <button id="startWatchBtn"  @click=${this.startWatch}>Start Watching Pos</button>
-    <div class="dropdown no-arrow">
+  <!--  <div class="dropdown no-arrow">
     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
     </a>
@@ -148,7 +147,7 @@ class MyGeolocation extends LitElement {
     <div class="dropdown-divider"></div>
     <a class="dropdown-item" href="#">Something else here</a>
     </div>
-    </div>
+    </div>-->
     </div>
     <!-- Card Body -->
     <div class="card-body">
@@ -159,7 +158,7 @@ class MyGeolocation extends LitElement {
     </div>
     <!--  <button @click=${this.clickHandler}>Test Agent from ${this.name} in lithtml</button>-->
     </div>
-    </div>
+<!--    </div>-->
     <!--</div>-->
 
 

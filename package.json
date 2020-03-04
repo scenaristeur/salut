@@ -20,8 +20,10 @@
   },
   "homepage": "https://github.com/scenaristeur/salut#readme",
   "dependencies": {
+    "@solid/query-ldflex": "^2.10.0",
     "evejs": "github:scenaristeur/evejs",
     "lit-element": "^2.2.1",
+    "shighl-elements": "github:scenaristeur/shighl-elements",
     "swiper": "^5.3.6",
     "webpack": "^4.42.0",
     "webpack-cli": "^3.3.11",
