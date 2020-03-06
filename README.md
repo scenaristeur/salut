@@ -26,3 +26,6 @@ npm run build
 npm install scenaristeur/shighl-elements
 
 ```
+# OpenLayer Doc (openstreetmap)
+https://openlayers.org/en/latest/doc/
+https://openlayers.org/en/latest/doc/tutorials/bundle.html

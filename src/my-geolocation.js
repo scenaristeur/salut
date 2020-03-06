@@ -30,82 +30,6 @@ class MyGeolocation extends LitElement {
     return script;
   }
 
-  onLoad() {
-    //  alert('loaded');
-    if(this.map === undefined){
-      this.map = new ol.Map({
-        target: this.shadowRoot.getElementById('map'),
-        layers: [
-          new ol.layer.Tile({
-            source: new ol.source.OSM()
-          })
-        ],
-        view: new ol.View({
-          center: ol.proj.fromLonLat([4.85, 45.75]),
-          zoom: 15
-        })
-      });
-      this.startWatch()
-    }
-  }
-
-  constructor() {
-    super();
-    this.message = 'Hello world! From my-element';
-    this.name = "unknown";
-    this.infopos = "You must accept Geolocation to use this widget";
-  }
-
-  firstUpdated(changedProperties) {
-    this.agent = new HelloAgent(this.name);
-    this.script();
-  }
-
-  startWatch(){
-    var app = this
-    if(navigator.geolocation){
-      this.shadowRoot.getElementById('startWatchBtn').classList.add('d-none')
-      this.shadowRoot.getElementById('stopWatchBtn').classList.remove('d-none')
-      app.survId =  navigator.geolocation.watchPosition(function(pos){
-        app.maPosition(pos,app)
-      })
-    }else{
-      alert("Geolocation is not supported")
-    }
-  }
-
-  stopWatch(){
-    this.shadowRoot.getElementById('stopWatchBtn').classList.add('d-none')
-    this.shadowRoot.getElementById('startWatchBtn').classList.remove('d-none')
-    // Annule le suivi de la position si nécessaire.
-    navigator.geolocation.clearWatch(this.survId);
-    this.infopos = "Gelolocation disabled"
-  }
-
-  maPosition(position, app) {
-    var infopos = "Position déterminée :\n";
-    infopos += "Latitude : "+position.coords.latitude +"\n";
-    infopos += "Longitude: "+position.coords.longitude+"\n";
-    infopos += "Altitude : "+position.coords.altitude +"\n";
-    infopos += "Vitesse  : "+position.coords.speed +"\n";
-    this.infopos = infopos;
-
-    var view = this.map.getView()
-    var lat = position.coords.latitude
-    var lon = position.coords.longitude
-    view.setCenter(ol.proj.fromLonLat([lon, lat]));
-
-    var layer = new ol.layer.Vector({
-      source: new ol.source.Vector({
-        features: [
-          new ol.Feature({
-            geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat]))
-          })
-        ]
-      })
-    });
-    this.map.addLayer(layer);
-  }
 
 
   render() {
@@ -117,7 +41,7 @@ class MyGeolocation extends LitElement {
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
-  <!--  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <!--  <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">-->
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/css/ol.css" type="text/css">
@@ -126,17 +50,71 @@ class MyGeolocation extends LitElement {
       height: 400px;
       width: 100%;
     }
-    </style>
+    .material-switch > input[type="checkbox"] {
+      display: none;
+    }
 
+    .material-switch > label {
+      cursor: pointer;
+      height: 0px;
+      position: relative;
+      width: 40px;
+    }
+
+    .material-switch > label::before {
+      background: rgb(0, 0, 0);
+      box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+      border-radius: 8px;
+      content: '';
+      height: 16px;
+      margin-top: -8px;
+      position:absolute;
+      opacity: 0.3;
+      transition: all 0.4s ease-in-out;
+      width: 40px;
+    }
+    .material-switch > label::after {
+      background: rgb(255, 255, 255);
+      border-radius: 16px;
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+      content: '';
+      height: 24px;
+      left: -4px;
+      margin-top: -8px;
+      position: absolute;
+      top: -4px;
+      transition: all 0.3s ease-in-out;
+      width: 24px;
+    }
+    .material-switch > input[type="checkbox"]:checked + label::before {
+      background: inherit;
+      opacity: 0.5;
+    }
+    .material-switch > input[type="checkbox"]:checked + label::after {
+      background: inherit;
+      left: 20px;
+    }
+    </style>
+    <link href="css/fontawesome/css/all.css" rel="stylesheet">
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
 
     <!--<div class="col-xl-4 col-lg-5">-->
-  <!--  <div class="col-xl-4 col-lg-5 card shadow mb-4">-->
+    <!--  <div class="col-xl-4 col-lg-5 card shadow mb-4">-->
     <!-- Card Header - Dropdown -->
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
     <h6 class="m-0 font-weight-bold text-primary">Name : ${this.name}</h6>
     <button id="stopWatchBtn"   @click=${this.stopWatch}>Stop Watching Pos</button>
     <button id="startWatchBtn"  @click=${this.startWatch}>Start Watching Pos</button>
-  <!--  <div class="dropdown no-arrow">
+
+    <li class="list-group-item">
+    Always center to my position
+    <div class="material-switch pull-right">
+    <input id="someSwitchOptionSuccess" name="someSwitchOption001" type="checkbox" checked/>
+    <label for="someSwitchOptionSuccess" class="label-success"></label>
+    </div>
+    </li>
+
+    <!--  <div class="dropdown no-arrow">
     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
     </a>
@@ -152,13 +130,14 @@ class MyGeolocation extends LitElement {
     <!-- Card Body -->
     <div class="card-body">
     <div id="infoposition">${this.infopos}</div>
+
     <!--<p>${this.message}</p>-->
     <div class="col">
-    <div id="map" class="map"></div>
+    <div id="map" class="map" @click=${this.clickHandler}></div>
     </div>
     <!--  <button @click=${this.clickHandler}>Test Agent from ${this.name} in lithtml</button>-->
     </div>
-<!--    </div>-->
+    <!--    </div>-->
     <!--</div>-->
 
 
@@ -168,11 +147,100 @@ class MyGeolocation extends LitElement {
     `;
   }
 
-  clickHandler(event) {
-    //console.log(event.target);
-    console.log(this.agent)
-    this.agent.send('agent1', 'Hello agent1!');
+
+
+
+  onLoad() {
+    //  alert('loaded');
+    if(this.map === undefined){
+      this.map = new ol.Map({
+        target: this.shadowRoot.getElementById('map'),
+        layers: [
+          new ol.layer.Tile({
+              source: new ol.source.OSM()
+            })
+        ],
+          view: new ol.View({
+        center: ol.proj.fromLonLat([4.85, 45.75]),
+        zoom: 15
+      })
+    });
+    this.startWatch()
   }
+}
+
+constructor() {
+  super();
+  this.message = 'Hello world! From my-element';
+  this.name = "unknown";
+  this.infopos = "You must accept Geolocation to use this widget";
+}
+
+firstUpdated(changedProperties) {
+  this.agent = new HelloAgent(this.name);
+  this.script();
+
+}
+
+startWatch(){
+  var app = this
+  if(navigator.geolocation){
+    this.shadowRoot.getElementById('startWatchBtn').classList.add('d-none')
+    this.shadowRoot.getElementById('stopWatchBtn').classList.remove('d-none')
+    app.survId =  navigator.geolocation.watchPosition(function(pos){
+      app.maPosition(pos,app)
+    })
+  }else{
+    alert("Geolocation is not supported")
+  }
+}
+
+stopWatch(){
+  this.shadowRoot.getElementById('stopWatchBtn').classList.add('d-none')
+  this.shadowRoot.getElementById('startWatchBtn').classList.remove('d-none')
+  // Annule le suivi de la position si nécessaire.
+  navigator.geolocation.clearWatch(this.survId);
+  this.infopos = "Gelolocation disabled"
+}
+
+maPosition(position, app) {
+  this.pos = position
+  var infopos = "Position déterminée :\n";
+  infopos += "Latitude : "+position.coords.latitude +"\n";
+  infopos += "Longitude: "+position.coords.longitude+"\n";
+  infopos += "Altitude : "+position.coords.altitude +"\n";
+  infopos += "Vitesse  : "+position.coords.speed +"\n";
+  this.infopos = infopos;
+
+  var view = this.map.getView()
+  var lat = position.coords.latitude
+  var lon = position.coords.longitude
+  var auto_center = this.shadowRoot.getElementById("someSwitchOptionSuccess").checked
+  //console.log(auto_center)
+  if (auto_center == true){
+    view.setCenter(ol.proj.fromLonLat([lon, lat]));
+  }
+
+
+  var layer = new ol.layer.Vector({
+    source: new ol.source.Vector({
+      features: [
+        new ol.Feature({
+          geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat]))
+        })
+      ]
+    })
+  });
+  this.map.addLayer(layer);
+}
+
+
+clickHandler(event) {
+  console.log(event)
+  console.log(event.target);
+  console.log(this.agent)
+  this.agent.send('StoreLocation', 'Hello agent1!');
+}
 
 }
 // Register the new element with the browser.

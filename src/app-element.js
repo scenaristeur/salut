@@ -3,7 +3,8 @@ import { HelloAgent } from './agents/hello-agent.js';
 
 import Swiper from 'swiper';
 
-import './my-geolocation.js'
+//import './my-geolocation.js'
+import './openlayer-element.js'
 import 'shighl-elements/dist/window/shighl-login-icon.js'
 import './store-location-element.js'
 
@@ -64,8 +65,8 @@ class AppElement extends LitElement {
     <div class="swiper-wrapper">
     <!-- Slides -->
     <div class="swiper-slide">
-
-    <my-geolocation>Salut</my-geolocation>
+    <openlayer-element name="OpenLayer">Chargement</openlayer-element>
+  <!--  <my-geolocation name="Geolocation">Salut</my-geolocation>-->
     <store-location-element name="StoreLocation"></store-location-element>
 
 
