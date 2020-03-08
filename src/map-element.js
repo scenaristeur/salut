@@ -19,6 +19,10 @@ class MapElement extends LitElement {
   render(){
     return html`
     <h4>${this.something}</h4>
+    https://stackoverflow.com/questions/47910874/search-address-with-openlayers<br>
+    https://nominatim.openstreetmap.org/search.php?q=france<br>
+    https://openlayers.org/en/latest/examples/overlay.html
+    
     `;
   }
 

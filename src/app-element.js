@@ -8,7 +8,7 @@ import './friends-element.js'
 import './map-element.js'
 import './profile-element.js'
 import './swiper-element.js'
-import './utilisateurs-element.js'
+import './users-element.js'
 
 class AppElement extends LitElement {
 
@@ -65,6 +65,7 @@ class AppElement extends LitElement {
       color: white;
     }
     </style>
+    <div class="container">
     <h4>${this.something}</h4>
     <login-element name="Login"></login-element>
 
@@ -73,11 +74,12 @@ class AppElement extends LitElement {
     <friends-element ?hidden="${this.webId == null || this.menu != 'friends_menu'}" name="Friends"></friends-element>
     <map-element ?hidden="${this.menu != 'map_menu'}" name="Map"></map-element>
     <swiper-element ?hidden="${this.webId == null || this.menu != 'swipper_menu'}" name="Swiper"></swiper-element>
-    <utilisateurs-element ?hidden="${this.menu != 'users_menu'}" name="Utilisateurs" connexionFile="${this.connexionFile}" ></utilisateurs-element>
-
+<div class="row">
+    <users-element ?hidden="${this.menu != 'users_menu'}" name="Users" connexionFile="${this.connexionFile}" ></users-element>
+</div>
     <br><br>    <br><br>    <br><br>
 
-
+  </div>
     <div class="navbar">
     <a href="#users" name="users_menu" @click="${this.menuChanged}">Users</a>
     <a href="#map" name="map_menu" @click=${this.menuChanged}>Map</a>
@@ -85,6 +87,7 @@ class AppElement extends LitElement {
     <a href="#profile" name="profile_menu" @click=${this.menuChanged} ?hidden="${this.webId == null}">Profile</a>
     <a href="#friends" name="friends_menu" @click=${this.menuChanged} ?hidden="${this.webId == null}">Friends</a>
     </div>
+
     <!--  <footer class="footer">
     <div class="container">
     <nav class="navbar navbar-expand-sm navbar-light bg-light" style="background-color: #e3f2fd;">
@@ -182,7 +185,7 @@ menuChanged(e){
 async webIdChanged(webId){
   this.webId = webId
   if (webId != null){
-    this.menu = "profile_menu"
+    this.menu = "users_menu" //"profile_menu"
     //  this.updateProfile();
     console.log("Send connected")
     var dateIso = new Date().toISOString()

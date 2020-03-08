@@ -269,7 +269,7 @@ async  updateProfile(){
   this.profile.inbox = `${inbox}`
   this.profile.storage = `${storage}`
   this.profile.instances = []
-  console.log(this.profile)
+//  console.log(this.profile)
   this.requestUpdate()
 
   let instances = []
