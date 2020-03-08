@@ -37,15 +37,32 @@ class AppElement extends LitElement {
     <link href="css/fontawesome/css/all.css" rel="stylesheet">
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
     <style>
-    /* Sticky footer styles
-    -------------------------------------------------- */
-    .footer {
+    .navbar {
+      overflow: hidden;
+      background-color: #333;
       position: fixed;
       bottom: 0;
       width: 100%;
-      /* Set the fixed height of the footer here */
-      height: 60px;
-      background-color: #f5f5f5;
+    }
+
+    .navbar a {
+      float: left;
+      display: block;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 17px;
+    }
+
+    .navbar a:hover {
+      background: #f1f1f1;
+      color: black;
+    }
+
+    .navbar a.active {
+      background-color: #4CAF50;
+      color: white;
     }
     </style>
     <h4>${this.something}</h4>
@@ -60,7 +77,15 @@ class AppElement extends LitElement {
 
     <br><br>    <br><br>    <br><br>
 
-    <footer class="footer">
+
+    <div class="navbar">
+    <a href="#users" name="users_menu" @click="${this.menuChanged}">Users</a>
+    <a href="#map" name="map_menu" @click=${this.menuChanged}>Map</a>
+    <a href="#swipper" name="swipper_menu" @click=${this.menuChanged} ?hidden="${this.webId == null}">Swipper</a>
+    <a href="#profile" name="profile_menu" @click=${this.menuChanged} ?hidden="${this.webId == null}">Profile</a>
+    <a href="#friends" name="friends_menu" @click=${this.menuChanged} ?hidden="${this.webId == null}">Friends</a>
+    </div>
+    <!--  <footer class="footer">
     <div class="container">
     <nav class="navbar navbar-expand-sm navbar-light bg-light" style="background-color: #e3f2fd;">
     <ul class="navbar-nav">
@@ -80,6 +105,7 @@ class AppElement extends LitElement {
     <a class="nav-link" name="friends_menu" href="#">Friends</a>
     </li>
     </ul>
+    -->
     <!--<a class="navbar-brand" href="#">Salut</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -107,10 +133,11 @@ class AppElement extends LitElement {
     </li>
     </ul>
     </div>
-    -->
+    --><!--
     </nav>
     </div>
     </footer>
+    -->
 
     `;
   }
@@ -143,8 +170,13 @@ class AppElement extends LitElement {
 
 }
 menuChanged(e){
+  var app = this
   console.log(e.target.name)
   this.menu=e.target.name
+  let menus = this.shadowRoot.querySelectorAll(".navbar a")
+  menus.forEach((m, i) => {
+    m.name == app.menu ? m.classList.add("active") : m.classList.remove("active")
+  });
 }
 
 async webIdChanged(webId){
@@ -156,10 +188,10 @@ async webIdChanged(webId){
     var dateIso = new Date().toISOString()
     let url = this.connexionFile+"#"+webId
     console.log(url)
-  //  await data[url].vcard$connection.add(dateIso)
-  //  await data[url].dct$modified != undefined ?
-     await data[url].dct$modified.set(dateIso)
-     // : await data[url].dct$modified.add(dateIso);
+    //  await data[url].vcard$connection.add(dateIso)
+    //  await data[url].dct$modified != undefined ?
+    await data[url].dct$modified.set(dateIso)
+    // : await data[url].dct$modified.add(dateIso);
 
 
   }else{
