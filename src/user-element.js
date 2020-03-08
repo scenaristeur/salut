@@ -25,11 +25,14 @@ class UserElement extends LitElement {
     .user_img{
       width: 90px !important
     }
+    .main{
+      display: inline-block
+    }
     </style>
 
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
     <link href="css/fontawesome/css/all.css" rel="stylesheet">
-    <div class="col mb-4">
+    <div class="col mb-4 main">
     <div class="card h-100">
 
     <div class="row">

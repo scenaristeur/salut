@@ -29,7 +29,7 @@ class AppElement extends LitElement {
     this.webId = null
     this.connexionFile = "https://salut.solid.community/public/log/connection.ttl"
     this.locationFile = "https://salut.solid.community/public/log/location.ttl"
-    this.menu = "landing_menu"
+    this.menu = "map_menu"
   }
 
   render(){
@@ -72,7 +72,8 @@ class AppElement extends LitElement {
     <profile-element ?hidden="${this.webId == null || this.menu != 'profile_menu'}" name="Profile"></profile-element>
 
     <friends-element ?hidden="${this.webId == null || this.menu != 'friends_menu'}" name="Friends"></friends-element>
-    <map-element ?hidden="${this.menu != 'map_menu'}" name="Map"></map-element>
+  <!--  <map-element ?hidden="${this.menu != 'map_menu'}" name="Map"></map-element> -->
+      <map-element ?hidden="${this.menu != 'map_menu'}" name="Map"></map-element>
     <swiper-element ?hidden="${this.webId == null || this.menu != 'swipper_menu'}" name="Swiper"></swiper-element>
 <div class="row">
     <users-element ?hidden="${this.menu != 'users_menu'}" name="Users" connexionFile="${this.connexionFile}" ></users-element>
@@ -185,7 +186,7 @@ menuChanged(e){
 async webIdChanged(webId){
   this.webId = webId
   if (webId != null){
-    this.menu = "users_menu" //"profile_menu"
+    this.menu="map_menu" //"profile_menu"
     //  this.updateProfile();
     console.log("Send connected")
     var dateIso = new Date().toISOString()
@@ -198,7 +199,7 @@ async webIdChanged(webId){
 
 
   }else{
-    this.menu = "users_menu"
+    this.menu = "map_menu"
   }
 }
 

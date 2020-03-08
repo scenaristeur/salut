@@ -1,5 +1,6 @@
 import { LitElement, html } from 'lit-element';
 import { HelloAgent } from './agents/hello-agent.js';
+import './openlayer-element'
 
 class MapElement extends LitElement {
 
@@ -19,10 +20,17 @@ class MapElement extends LitElement {
   render(){
     return html`
     <h4>${this.something}</h4>
+    <openlayer-element name="OpenLayer">Loading OpenLayer Map...</openlayer-element>
+    https://nouvelle-techno.fr/actualites/2018/07/10/geolocalisation-et-distance-avec-openstreetmap<br>
+    https://leafletjs.com/reference-1.6.0.html#latlngbounds-contains<br>
+    geolocation : https://openlayers.org/en/latest/examples/geolocation.html<br>
+https://openlayers.org/workshop/en/mobile/geolocation.html<br>
+https://github.com/Viglino/ol-ext<br>
     https://stackoverflow.com/questions/47910874/search-address-with-openlayers<br>
     https://nominatim.openstreetmap.org/search.php?q=france<br>
     https://openlayers.org/en/latest/examples/overlay.html
-    
+
+
     `;
   }
 
@@ -48,7 +56,7 @@ class MapElement extends LitElement {
   webIdChanged(webId){
     this.webId = webId
     if (webId != null){
-    //  this.updateProfile();
+      //  this.updateProfile();
     }else{
 
     }
