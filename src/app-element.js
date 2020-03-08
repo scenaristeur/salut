@@ -1,183 +1,120 @@
 import { LitElement, html } from 'lit-element';
 import { HelloAgent } from './agents/hello-agent.js';
-
-import Swiper from 'swiper';
-
-//import './my-geolocation.js'
-import './openlayer-element.js'
-import 'shighl-elements/dist/window/shighl-login-icon.js'
-import './store-location-element.js'
+import './login-element.js'
+import './friends-element.js'
+import './map-element.js'
+import './profile-element.js'
+import './swiper-element.js'
+import './utilisateurs-element.js'
 
 class AppElement extends LitElement {
 
   static get properties() {
     return {
       name: {type: String},
+      something: {type: String},
+      webId: {type: String}
     };
   }
 
   constructor() {
     super();
+    this.something = "AppElement"
+    this.webId = null
   }
 
   render(){
     return html`
-    <link rel="stylesheet" href="./css/swiper.min.css">
     <link href="css/fontawesome/css/all.css" rel="stylesheet">
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
     <style>
-    :host {
-      position: relative;
-      height: 100%;
-    }
-    .swiper-container {
-      width: auto;
-      height: 100%; /*88vh;*/
-    }
-    .swiper-button-next, .swiper-button-prev {
+    /* Sticky footer styles
+    -------------------------------------------------- */
+    .footer {
       position: absolute;
-      top: 95%;
-      width: calc(var(--swiper-navigation-size)/ 44 * 27);
-      height: calc(var(--swiper-navigation-size)/10);
-
-      /*  .swiper-container {
-      width: 300px;
-      height: 300px;
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      margin-left: -150px;
-      margin-top: -150px;
-    }*/
-    .swiper-slide {
-      background-position: center;
-      background-size: cover;
+      bottom: 0;
+      width: 100%;
+      /* Set the fixed height of the footer here */
+      height: 60px;
+      background-color: #f5f5f5;
     }
     </style>
+    <h4>${this.something}</h4>
+    <login-element name="Login"></login-element>
 
-    <div class="container-fluid" >
-    <div class="col shadow-lg p-3 mt-3 ml-n1 mr-n1 bg-white" style="height:96vh;width:100vw;border-radius: 25px;">
-    <shighl-login-icon></shighl-login-icon>
+    <profile-element ?hidden="${this.webId == null}" name="Profile"></profile-element>
+<!--
+    <friends-element ?hidden="${this.webId == null}" name="Friends"></friends-element>
+    <map-element name="Map"></map-element>
+    <swiper-element ?hidden="${this.webId == null}" name="Swiper"></swiper-element>
+    <utilisateurs-element name="Utilisateurs"></utilisateurs-element>
+    -->
 
-    <!-- Slider main container -->
-    <div class="swiper-container">
-    <!-- Additional required wrapper -->
-    <div class="swiper-wrapper">
-    <!-- Slides -->
-    <div class="swiper-slide">
-    <openlayer-element name="OpenLayer">Chargement</openlayer-element>
-  <!--  <my-geolocation name="Geolocation">Salut</my-geolocation>-->
-    <store-location-element name="StoreLocation"></store-location-element>
+    <footer class="footer">
+    <div class="container">
+    <nav class="navbar  navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+      <a class="navbar-brand" href="#">Salut</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Profile <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Friends</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Swiper</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Dropdown link
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li>
+        </ul>
+      </div>
 
-
+</nav>
     </div>
-    <div class="swiper-slide">
-    Todo list
-    <ul>
-
-    <li>
-    <div>
-    <input type="checkbox" id="scales" name="scales" checked>
-    <label for="scales">Solid Pod Login</label>
-    </div>
-    </li>
-
-    <li>
-    <div>
-    <input type="checkbox" id="scales" name="scales" >
-    <label for="scales">Store this location on user's POD public or/and private</label>
-    </div>
-    </li>
-
-    <li>
-    <div>
-    <input type="checkbox" id="scales" name="scales" >
-    <label for="scales">Register the user on Salut's pod https://salut.solid.community/</label>
-    </div>
-    </li>
-
-    <li>
-    <div>
-    <input type="checkbox" id="scales" name="scales" >
-    <label for="scales">Show user the distance to other users but not their location</label>
-    </div>
-    </li>
-
-    <li>
-    <div>
-    <input type="checkbox" id="scales" name="scales" >
-    <label for="scales">Another idea</label>
-    </div>
-    </li>
-    <li>
-    </li>
-    </ul>
-
-    </div>
-
-    <div class="swiper-slide">two</div>
-
-    </div>
-    <!-- If we need pagination -->
-    <div class="swiper-pagination"></div>
-
-    <!-- If we need navigation buttons -->
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
-
-    <!-- If we need scrollbar -->
-    <!--  <div class="swiper-scrollbar"></div>-->
-    </div>
-    </div>
-    </div>
+    </footer>
 
     `;
   }
 
   firstUpdated(){
     var app = this;
-    const slide = this.shadowRoot.querySelector('.swiper-container');
-    const prev = this.shadowRoot.querySelector('.swiper-button-prev');
-    const next = this.shadowRoot.querySelector('.swiper-button-next');
-    const pagination = this.shadowRoot.querySelector('.swiper-pagination');
-    const scrollbar = this.shadowRoot.querySelector('.swiper-scrollbar');
+    this.agent = new HelloAgent(this.name);
+    console.log(this.agent)
+    this.agent.receive = function(from, message) {
+      //  console.log("messah",message)
+      if (message.hasOwnProperty("action")){
+        //  console.log(message)
+        switch(message.action) {
+          case "webIdChanged":
+          app.webIdChanged(message.webId)
+          break;
+          default:
+          console.log("Unknown action ",message)
+        }
+      }
+    };
+  }
 
-    const mySwiper = new Swiper(slide, {
-      navigation: {
-        nextEl: next,
-        prevEl: prev,
-        //  hideOnClick : true
-      },
+  webIdChanged(webId){
+    this.webId = webId
+    if (webId != null){
+      //  this.updateProfile();
+    }else{
 
-      // Optional parameters
-      direction: 'horizontal',
-      allowTouchMove : false,
-      //  loop: true,
-
-      // If we need pagination
-      pagination: {
-        el: pagination
-      },
-      effect: 'cube',
-      grabCursor: true,
-      cubeEffect: {
-        shadow: true,
-        slideShadows: true,
-        shadowOffset: 20,
-        shadowScale: 0.94,
-      },
-      // Navigation arrows
-      /*  navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },*/
-
-    // And if we need scrollbar
-    /*  scrollbar: {
-    el: scrollbar,
-  },*/
-});
-}
+    }
+  }
 
 }
 
