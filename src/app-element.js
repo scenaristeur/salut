@@ -1,6 +1,6 @@
 import { LitElement, html } from 'lit-element';
 import { HelloAgent } from './agents/hello-agent.js';
-import * as auth from 'solid-auth-client';
+//import * as auth from 'solid-auth-client';
 import data from "@solid/query-ldflex";
 
 import './login-element.js'
@@ -18,8 +18,8 @@ class AppElement extends LitElement {
       something: {type: String},
       webId: {type: String},
       connexionFile: {type: String},
-      locationFile: {type: String}
-
+      locationFile: {type: String},
+      menu: {type: String}
     };
   }
 
@@ -29,7 +29,7 @@ class AppElement extends LitElement {
     this.webId = null
     this.connexionFile = "https://salut.solid.community/public/log/connection.ttl"
     this.locationFile = "https://salut.solid.community/public/log/location.ttl"
-
+    this.menu = "landing_menu"
   }
 
   render(){
@@ -51,19 +51,36 @@ class AppElement extends LitElement {
     <h4>${this.something}</h4>
     <login-element name="Login"></login-element>
 
-    <profile-element ?hidden="${this.webId == null}" name="Profile"></profile-element>
-    <!--
-    <friends-element ?hidden="${this.webId == null}" name="Friends"></friends-element>
-    <map-element name="Map"></map-element>
-    <swiper-element ?hidden="${this.webId == null}" name="Swiper"></swiper-element>
-    <utilisateurs-element name="Utilisateurs"></utilisateurs-element>
-    -->
+    <profile-element ?hidden="${this.webId == null || this.menu != 'profile_menu'}" name="Profile"></profile-element>
+
+    <friends-element ?hidden="${this.webId == null || this.menu != 'friends_menu'}" name="Friends"></friends-element>
+    <map-element ?hidden="${this.menu != 'map_menu'}" name="Map"></map-element>
+    <swiper-element ?hidden="${this.webId == null || this.menu != 'swipper_menu'}" name="Swiper"></swiper-element>
+    <utilisateurs-element ?hidden="${this.menu != 'users_menu'}" name="Utilisateurs" connexionFile="${this.connexionFile}" ></utilisateurs-element>
+
     <br><br>    <br><br>    <br><br>
 
     <footer class="footer">
     <div class="container">
-    <nav class="navbar  navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
-    <a class="navbar-brand" href="#">Salut</a>
+    <nav class="navbar navbar-expand-sm navbar-light bg-light" style="background-color: #e3f2fd;">
+    <ul class="navbar-nav">
+    <li class="nav-item" name="users_menu" @click=${this.menuChanged}>
+    <a class="nav-link" name="users_menu" href="#">Users</a>
+    </li>
+    <li class="nav-item" name="map_menu" @click=${this.menuChanged}>
+    <a class="nav-link" name="map_menu" href="#">Map</a>
+    </li>
+    <li class="nav-item" name="swipper_menu" @click=${this.menuChanged} ?hidden="${this.webId == null}">
+    <a class="nav-link" name="swipper_menu" href="#">Swipper</a>
+    </li>
+    <li class="nav-item" name="profile_menu"  @click=${this.menuChanged} ?hidden="${this.webId == null}">
+    <a class="nav-link" name="profile_menu" href="#">Profile</a>
+    </li>
+    <li class="nav-item" name="friends_menu"  @click=${this.menuChanged} ?hidden="${this.webId == null}">
+    <a class="nav-link" name="friends_menu" href="#">Friends</a>
+    </li>
+    </ul>
+    <!--<a class="navbar-brand" href="#">Salut</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
     </button>
@@ -90,7 +107,7 @@ class AppElement extends LitElement {
     </li>
     </ul>
     </div>
-
+    -->
     </nav>
     </div>
     </footer>
@@ -115,40 +132,38 @@ class AppElement extends LitElement {
         }
       }
     };
-    for await (const connection_user of data[this.connexionFile].subjects){
-      console.log("connection_user", `${connection_user}` );
+
+    for await (const location_user of data[this.locationFile].subjects){
+      console.log("location_user", `${location_user}` );
       /*if ( `${subject}` != discovurl){ // ne semble pas fonctionner ??
       docs = [... docs, `${subject}`]
       //console.log(docs)
     }*/
   }
-  for await (const location_user of data[this.locationFile].subjects){
-    console.log("location_user", `${location_user}` );
-    /*if ( `${subject}` != discovurl){ // ne semble pas fonctionner ??
-    docs = [... docs, `${subject}`]
-    //console.log(docs)
-  }*/
+
 }
-/*  let connections = await data[this.connexionFile]
-this.connections = `${connections}`
-console.log("Connection",this.connections)
-let locations = await data[this.locationFile]
-this.locations = `${locations}`
-console.log("Locations",this.locations)*/
+menuChanged(e){
+  console.log(e.target.name)
+  this.menu=e.target.name
 }
 
 async webIdChanged(webId){
   this.webId = webId
   if (webId != null){
+    this.menu = "profile_menu"
     //  this.updateProfile();
     console.log("Send connected")
     var dateIso = new Date().toISOString()
     let url = this.connexionFile+"#"+webId
     console.log(url)
-    await data[url].vcard$connection.add(dateIso)
+  //  await data[url].vcard$connection.add(dateIso)
+  //  await data[url].dct$modified != undefined ?
+     await data[url].dct$modified.set(dateIso)
+     // : await data[url].dct$modified.add(dateIso);
+
 
   }else{
-
+    this.menu = "users_menu"
   }
 }
 

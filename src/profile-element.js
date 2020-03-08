@@ -1,7 +1,8 @@
 import { LitElement, html } from 'lit-element';
 import { HelloAgent } from './agents/hello-agent.js';
-import * as auth from 'solid-auth-client';
+//import * as auth from 'solid-auth-client';
 import data from "@solid/query-ldflex";
+import { namedNode } from '@rdfjs/data-model';
 
 class ProfileElement extends LitElement {
 
@@ -32,8 +33,7 @@ class ProfileElement extends LitElement {
     <div class="row">
 
     <div class="col-sm-4">
-    <h4>${this.profile.name}</h4>
-    <span>${this.webId}</span>
+    <h4><a href="${this.webId}" target="_blank">${this.profile.name}</a></h4>
     <div class="input-group mb-3">
     <div class="input-group-prepend">
     <span class="input-group-text" id="username-label">Username</span>
@@ -245,7 +245,8 @@ async  updateProfile(){
   this.profile.storage = `${storage}`
   this.profile.url = this.profile.storage+"public/salut/profile.ttl#me"
   let test_profile = await data[this.profile.url]
-  await data[this.profile.url].dct$publisher.add("salut.app")
+  await data[this.profile.url].dct$publisher.add(namedNode("https://salut.solid.community/"))
+  await data[this.profile.url].foaf$maker.add(namedNode(this.webId))
 
   const n = await data[this.profile.url].vcard$fn || await data.user.vcard$fn || this.webId.split("/")[2].split('.')[0];
   const img = await data[this.profile.url].vcard$hasPhoto ||  await data.user.vcard$hasPhoto || "";

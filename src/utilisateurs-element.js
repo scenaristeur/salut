@@ -1,5 +1,6 @@
 import { LitElement, html } from 'lit-element';
 import { HelloAgent } from './agents/hello-agent.js';
+import data from "@solid/query-ldflex";
 
 class UtilisateursElement extends LitElement {
 
@@ -7,22 +8,32 @@ class UtilisateursElement extends LitElement {
     return {
       name: {type: String},
       something: {type: String},
-      webId: {type: String}
+      webId: {type: String},
+      connexionFile: {type: String},
+      users: {type: String}
     };
   }
 
   constructor() {
     super();
     this.something = "UtilisateursElement"
+    this.connexionFile = "conn"
+    this.users = []
   }
 
   render(){
     return html`
     <h4>${this.something}</h4>
+    ${this.connexionFile}<br>
+    ${this.users.length}
+
+    <ul>
+    ${this.users.map((user) => html`<li>${user.webId}, ${user.connection}</li>`)}
+    </ul>
     `;
   }
 
-  firstUpdated(){
+  async firstUpdated(){
     var app = this;
     this.agent = new HelloAgent(this.name);
     console.log(this.agent)
@@ -39,16 +50,31 @@ class UtilisateursElement extends LitElement {
         }
       }
     };
-  }
 
-  webIdChanged(webId){
-    this.webId = webId
-    if (webId != null){
+    app.users = []
+    for await (const connection_user of data[this.connexionFile].subjects){
+      console.log("connection_user", `${connection_user}` );
+      let user = {}
+      user.webId = `${connection_user}`.substring(this.connexionFile.length+1)
+      user.connection = await data[connection_user].dct$modified
+      app.users = [... app.users, user]
+      /*if ( `${subject}` != discovurl){ // ne semble pas fonctionner ??
+      docs = [... docs, `${subject}`]
+      //console.log(docs)
+    }*/
+  }
+  console.log(app.users)
+
+}
+
+webIdChanged(webId){
+  this.webId = webId
+  if (webId != null){
     //  this.updateProfile();
-    }else{
+  }else{
 
-    }
   }
+}
 
 }
 
