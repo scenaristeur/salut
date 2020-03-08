@@ -1,0 +1,26 @@
+{
+  "name": "Salut",
+  "short_name": "Salut",
+  "start_url": "./",
+  "background_color": "aliceblue",
+  "theme_color": "aliceblue",
+  "description": "Salut !",
+  "display": "fullscreen",
+  "orientation": "portrait-primary",
+  "related_applications": [{
+    "platform": "web",
+    "url": "https://scenaristeur.github.io/salut/"
+    }],
+    "icons": [
+      {
+        "src": "favicon.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }
+    ],
+    "permissions": {
+      "desktop-notification": {
+        "description": "Needed for creating system notifications."
+      }
+    }
+  }
