@@ -3,6 +3,8 @@ import { HelloAgent } from './agents/hello-agent.js';
 //import * as auth from 'solid-auth-client';
 import data from "@solid/query-ldflex";
 import { namedNode } from '@rdfjs/data-model';
+//import './localisation-element.js'
+import './interests-element.js'
 
 class ProfileElement extends LitElement {
 
@@ -12,197 +14,231 @@ class ProfileElement extends LitElement {
       something: {type: String},
       webId: {type: String},
       profile: {type: Object},
-      locationFile: {type: String}
+      locationFile: {type: String},
     };
   }
 
   constructor() {
     super();
     this.something = "Profile"
-    this.profile = {}
-    this.locationFile = "https://salut.solid.community/public/log/location.ttl"
-  }
+    this.profile = { name:"", lang: navigator.language, role: "", organization: "", locality: "", country: ""}
+  this.locationFile = "https://salut.solid.community/public/log/location.ttl"
+}
 
-  render(){
-    return html`
-    <link href="css/fontawesome/css/all.css" rel="stylesheet">
-    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
+render(){
+  return html`
+  <link href="css/fontawesome/css/all.css" rel="stylesheet">
+  <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
 
-    <div class="container-fluid">
-    ${this.something}
-    <div class="row">
+  <div class="container-fluid">
+  ${this.something}
+  <div class="row">
 
-    <div class="col-sm-4">
-    <h4><a href="${this.webId}" target="_blank">${this.profile.name}</a></h4>
-    <div class="input-group mb-3">
-    <div class="input-group-prepend">
-    <span class="input-group-text" id="username-label">Username</span>
-    </div>
-    <input id="username" type="text" class="form-control"
-    placeholder="Username" aria-label="Username"
-    aria-describedby="username-label" value="${this.profile.name}">
-    </div>
+  <div class="col-sm-4">
+  <h4>
+  <a href="${this.webId}" target="_blank">${this.profile.name}</a>
+  <span id="spinner" class="spinner-border spinner-border-sm" hidden role="status" aria-hidden="true"></span>
+</h4>
 
-    <div class="input-group mb-3">
-    <div class="input-group-prepend">
-    <span class="input-group-text"
-    id="role-label">Role</span>
-    </div>
-    <input id="role" type="text"
-    class="form-control"
-    placeholder="Role"
-    aria-label="Role"
-    aria-describedby="role-label" value="${this.profile.role}">
-    </div>
-
-    <div class="input-group mb-3">
-    <div class="input-group-prepend">
-    <span class="input-group-text"
-    id="organization-label">Organization</span>
-    </div>
-    <input id="organization" type="text"
-    class="form-control"
-    placeholder="Organization"
-    aria-label="Organization"
-    aria-describedby="organization-label" value="${this.profile.organization}">
-    </div>
-
-    <div class="input-group mb-3">
-    <div class="input-group-prepend">
-    <span class="input-group-text"
-    id="locality-label">Locality</span>
-    </div>
-    <input id="locality" type="text"
-    class="form-control"
-    placeholder="Locality"
-    aria-label="Locality"
-    aria-describedby="locality-label" value="${this.profile.locality}">
-    </div>
-
-    <div class="input-group mb-3">
-    <div class="input-group-prepend">
-    <span class="input-group-text" id="country-label">Country</span>
-    </div>
-    <input id="country" type="text" class="form-control"
-    placeholder="Country"
-    aria-label="Country"
-    aria-describedby="country-label" value="${this.profile.country}">
-    </div>
-
-    </div>
-
-    <div class="col-sm-8">
+  <div class="input-group mb-3">
+  <div class="input-group-prepend">
+  <label class="input-group-text" for="lang">Lang</label>
+  </div>
+  <select class="custom-select" id="lang">
+  <option value="fr" ?selected="${this.profile.lang == 'fr'}">Français</option>
+  <option value="en" ?selected="${this.profile.lang == 'en'}">English</option>
+  <option value="es" ?selected="${this.profile.lang == 'es'}">Spanish</option>
+  <option value="de" ?selected="${this.profile.lang == 'de'}">Deutsch</option>
+  </select>
+  </div>
 
 
-    <div class="input-group mb-3">
-    <div class="input-group-prepend">
-    <span class="input-group-text" id="basic-addon2">Description</span>
-    </div>
-    <textarea
-    id="description"
-    class="form-control"
-    placeholder="Description"
-    aria-label="Description"
-    rows="5" cols="33"
-    aria-describedby="basic-addon2">${this.profile.description}
-    </textarea>
-    </div>
+
+  <div class="input-group mb-3">
+  <div class="input-group-prepend">
+  <span class="input-group-text" id="username-label">Username</span>
+  </div>
+  <input id="username" type="text" class="form-control"
+  placeholder="Username" aria-label="Username"
+  aria-describedby="username-label" value="${this.profile.name}">
+  </div>
+
+  <div class="input-group mb-3">
+  <div class="input-group-prepend">
+  <span class="input-group-text"
+  id="role-label">Role</span>
+  </div>
+  <input id="role" type="text"
+  class="form-control"
+  placeholder="Role"
+  aria-label="Role"
+  aria-describedby="role-label" value="${this.profile.role}">
+  </div>
+
+  <div class="input-group mb-3">
+  <div class="input-group-prepend">
+  <span class="input-group-text"
+  id="organization-label">Organization</span>
+  </div>
+  <input id="organization" type="text"
+  class="form-control"
+  placeholder="Organization"
+  aria-label="Organization"
+  aria-describedby="organization-label" value="${this.profile.organization}">
+  </div>
+
+  <div class="input-group mb-3">
+  <div class="input-group-prepend">
+  <span class="input-group-text"
+  id="locality-label">Locality</span>
+  </div>
+  <input id="locality" type="text"
+  class="form-control"
+  placeholder="Locality"
+  aria-label="Locality"
+  aria-describedby="locality-label" value="${this.profile.locality}">
+  </div>
+
+  <div class="input-group mb-3">
+  <div class="input-group-prepend">
+  <span class="input-group-text" id="country-label">Country</span>
+  </div>
+  <input id="country" type="text" class="form-control"
+  placeholder="Country"
+  aria-label="Country"
+  aria-describedby="country-label" value="${this.profile.country}">
+  </div>
+
+  <!--  <localisation-element name="Localisation"></localisation-element>-->
 
 
-    <div class="input-group mb-3">
-    <div class="input-group-prepend">
-    <label class="input-group-text" for="birthday">Birthday</label>
-    </div>
-    <input type="date" class="form-control"
-    id="birthday" aria-describedby="birthday" placeholder="Birthday"
-    value="${this.profile.birthday}">
-    </div>
 
-    <div class="input-group mb-3">
-    <div class="input-group-prepend">
-    <label class="input-group-text" for="gender">Gender</label>
-    </div>
-    <select class="custom-select" id="gender">
-    <option value="Unknown" ?selected="${this.profile.gender == 'Unknown'}">Unknown</option>
-    <option value="Female" ?selected="${this.profile.gender == 'Female'}">Female</option>
-    <option value="Male" ?selected="${this.profile.gender == 'Male'}">Male</option>
-    <option value="None" ?selected="${this.profile.gender == 'None'}">None</option>
-    <option value="Other" ?selected="${this.profile.gender == 'Other'}">Other</option>
 
-    </select>
-    </div>
-    <!--
-    <div class="form-group">
-    <label for="birthday2">Birthday</label>
-    <input type="date" class="form-control"
-    id="birthday2" aria-describedby="emailHelp" placeholder="Birthday">
-    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-    </div>
+  </div>
 
-    <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-    </div>
-    <div class="form-check">
-    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-    </div>
-    -->
-    <button type="button" class="btn btn-primary"  @click=${this.submit}>Submit</button>
+  <div class="col-sm-8">
 
-    </div>
 
-    </div>
-    </div>
-    `;
-  }
+  <div class="input-group mb-3">
+  <div class="input-group-prepend">
+  <span class="input-group-text" id="basic-addon2">Description</span>
+  </div>
+  <textarea
+  id="description"
+  class="form-control"
+  placeholder="Description"
+  aria-label="Description"
+  rows="5" cols="33"
+  aria-describedby="basic-addon2">${this.profile.description}
+  </textarea>
+  </div>
 
-  async submit(){
-    this.profile.name = this.shadowRoot.getElementById("username").value.trim()
-    this.profile.role = this.shadowRoot.getElementById("role").value.trim()
-    this.profile.organization = this.shadowRoot.getElementById("organization").value.trim()
-    this.profile.locality = this.shadowRoot.getElementById("locality").value.trim()
-    this.profile.country = this.shadowRoot.getElementById("country").value.trim()
-    this.profile.description = this.shadowRoot.getElementById("description").value.trim()
-    this.profile.birthday = this.shadowRoot.getElementById("birthday").value
-    this.profile.gender = this.shadowRoot.getElementById("gender").value
 
-    var dateIso = new Date().toISOString()
+  <div class="input-group mb-3">
+  <div class="input-group-prepend">
+  <label class="input-group-text" for="birthday">Birthday</label>
+  </div>
+  <input type="date" class="form-control"
+  id="birthday" aria-describedby="birthday" placeholder="Birthday"
+  value="${this.profile.birthday}">
+  </div>
 
-    var dateIso = new Date().toISOString()
-    let url = this.locationFile+"#"+this.webId
-    console.log(url)
-    await data[url].dct$modified != undefined ? await data[url].dct$modified.set(dateIso) : await data[url].dct$modified.add(dateIso);
-    await data[url].vcard$locality.set(this.profile.locality)
-    await data[url].vcard$country.set(this.profile.country)
+  <div class="input-group mb-3">
+  <div class="input-group-prepend">
+  <label class="input-group-text" for="gender">Gender</label>
+  </div>
+  <select class="custom-select" id="gender">
+  <option value="Unknown" ?selected="${this.profile.gender == 'Unknown'}">Unknown</option>
+  <option value="Female" ?selected="${this.profile.gender == 'Female'}">Female</option>
+  <option value="Male" ?selected="${this.profile.gender == 'Male'}">Male</option>
+  <option value="None" ?selected="${this.profile.gender == 'None'}">None</option>
+  <option value="Other" ?selected="${this.profile.gender == 'Other'}">Other</option>
+  </select>
+  </div>
+  <!--
+  <div class="form-group">
+  <label for="birthday2">Birthday</label>
+  <input type="date" class="form-control"
+  id="birthday2" aria-describedby="emailHelp" placeholder="Birthday">
+  <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+  </div>
 
-    console.log(dateIso, this.profile)
-    await data[this.profile.url].dct$modified.add(dateIso)
-    await data[this.profile.url].vcard$fn.set(this.profile.name)||
-    await data[this.profile.url].vcard$hasPhoto.set(this.profile.img)
-    await data[this.profile.url].vcard$role.set(this.profile.role);
-    await data[this.profile.url]['http://www.w3.org/2006/vcard/ns#organization-name'].set(this.profile.organization)
-    await data[this.profile.url].vcard$locality.set(this.profile.locality)
-    await data[this.profile.url]['http://www.w3.org/2006/vcard/ns#country-name'].set(this.profile.country)
-    await data[this.profile.url].vcard$note.set(this.profile.description)
-    await data[this.profile.url].vcard$bday.set(this.profile.birthday)
-    await data[this.profile.url].vcard$hasGender.set(this.profile.gender)
-    // location info
+  <div class="form-group">
+  <label for="exampleInputPassword1">Password</label>
+  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+  </div>
+  <div class="form-check">
+  <input type="checkbox" class="form-check-input" id="exampleCheck1">
+  <label class="form-check-label" for="exampleCheck1">Check me out</label>
+  </div>
+  -->
+  <button id="submit_btn" class="btn btn-primary" type="button" @click=${this.submit}>Submit</button>
 
-    /*  var country = await data[url].vcard$country
-    console.log(country == undefined)
-    if(country == undefined ){
-    console.log("add")
-    await data[url].vcard$country.add(this.profile.country)
-  }else{
-  console.log("set")
+  </div>
+
+  </div>
+
+  <div class="row">
+  <interests-element name="Interests" profile_url=${this.profile.url}></interests-element>
+  </div>
+
+
+  </div>
+  `;
+}
+
+async submit(){
+  this.shadowRoot.getElementById("submit_btn").disabled = true
+  this.shadowRoot.getElementById("spinner").hidden = false
+  this.profile.lang = this.shadowRoot.getElementById("lang").value
+  this.profile.name = this.shadowRoot.getElementById("username").value.trim()
+  this.profile.role = this.shadowRoot.getElementById("role").value.trim()
+  this.profile.organization = this.shadowRoot.getElementById("organization").value.trim()
+  this.profile.locality = this.shadowRoot.getElementById("locality").value.trim()
+  this.profile.country = this.shadowRoot.getElementById("country").value.trim()
+  this.profile.description = this.shadowRoot.getElementById("description").value.trim()
+  this.profile.birthday = this.shadowRoot.getElementById("birthday").value
+  this.profile.gender = this.shadowRoot.getElementById("gender").value
+
+  var dateIso = new Date().toISOString()
+
+  var dateIso = new Date().toISOString()
+  let url = this.locationFile+"#"+this.webId
+  console.log(url)
+  await data[url].dct$modified != undefined ? await data[url].dct$modified.set(dateIso) : await data[url].dct$modified.add(dateIso);
+  await data[url].vcard$locality.set(this.profile.locality)
   await data[url].vcard$country.set(this.profile.country)
+
+  console.log(dateIso, this.profile)
+  await data[this.profile.url].dct$modified.add(dateIso)
+  await data[this.profile.url].vcard$fn.set(this.profile.name)||
+  await data[this.profile.url].vcard$hasPhoto.set(this.profile.img)
+  await data[this.profile.url].vcard$role.set(this.profile.role);
+  await data[this.profile.url]['http://www.w3.org/2006/vcard/ns#organization-name'].set(this.profile.organization)
+  await data[this.profile.url].vcard$locality.set(this.profile.locality)
+  await data[this.profile.url]['http://www.w3.org/2006/vcard/ns#country-name'].set(this.profile.country)
+  await data[this.profile.url].vcard$note.set(this.profile.description)
+  await data[this.profile.url].vcard$bday.set(this.profile.birthday)
+  await data[this.profile.url].vcard$hasGender.set(this.profile.gender)
+  await data[this.profile.url].vcard$hasLanguage.set(this.profile.lang)
+  // location info
+
+  /*  var country = await data[url].vcard$country
+  console.log(country == undefined)
+  if(country == undefined ){
+  console.log("add")
+  await data[url].vcard$country.add(this.profile.country)
+}else{
+console.log("set")
+await data[url].vcard$country.set(this.profile.country)
 }*/
 
 
 
 //  await data[url].vcard$hasAddress['http://www.w3.org/2006/vcard/ns#country-name'].set(this.profile.country)
 
+this.shadowRoot.getElementById("submit_btn").disabled = false
+this.shadowRoot.getElementById("spinner").hidden = true
 
 
 }
@@ -238,12 +274,16 @@ webIdChanged(webId){
 }
 
 async  updateProfile(){
+  this.shadowRoot.getElementById("spinner").hidden = false
+
   console.log(this.webId)
   //  let storage = await data.user.storage
   const storage = await data.user.storage;
   const inbox = await data.user.inbox;
   this.profile.storage = `${storage}`
   this.profile.url = this.profile.storage+"public/salut/profile.ttl#me"
+  this.agent.send('Interests',  {action:"profileUrlChanged", url: this.profile.url});
+
   let test_profile = await data[this.profile.url]
   await data[this.profile.url].dct$publisher.add(namedNode("https://salut.solid.community/"))
   await data[this.profile.url].foaf$maker.add(namedNode(this.webId))
@@ -253,6 +293,7 @@ async  updateProfile(){
   const role = await data[this.profile.url].vcard$role || await data.user.vcard$role || "";
   const birthday = await data[this.profile.url].vcard$bday;
   const gender = await data[this.profile.url].vcard$hasGender || "Unknown";
+  const lang = await data[this.profile.url].vcard$hasLanguage;
   const description = await data[this.profile.url].vcard$note || "";
   const organization = await data[this.profile.url]['http://www.w3.org/2006/vcard/ns#organization-name'] || await data.user['http://www.w3.org/2006/vcard/ns#organization-name'] || "";
   const locality = await data[this.profile.url].vcard$locality || await data.user.vcard$hasAddress.vcard$locality || "";
@@ -262,6 +303,7 @@ async  updateProfile(){
   this.profile.role = `${role}`
   this.profile.birthday = `${birthday}`
   this.profile.gender = `${gender}`
+  this.profile.lang = `${lang}` || this.lang
   this.profile.description = `${description}`
   this.profile.organization = `${organization}`
   this.profile.locality = `${locality}`
@@ -269,8 +311,9 @@ async  updateProfile(){
   this.profile.inbox = `${inbox}`
   this.profile.storage = `${storage}`
   this.profile.instances = []
-//  console.log(this.profile)
+  //  console.log(this.profile)
   this.requestUpdate()
+  this.shadowRoot.getElementById("spinner").hidden = true
 
   let instances = []
   try{

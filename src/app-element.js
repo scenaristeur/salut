@@ -72,15 +72,15 @@ class AppElement extends LitElement {
     <profile-element ?hidden="${this.webId == null || this.menu != 'profile_menu'}" name="Profile"></profile-element>
 
     <friends-element ?hidden="${this.webId == null || this.menu != 'friends_menu'}" name="Friends"></friends-element>
-  <!--  <map-element ?hidden="${this.menu != 'map_menu'}" name="Map"></map-element> -->
-      <map-element ?hidden="${this.menu != 'map_menu'}" name="Map"></map-element>
+    <!--  <map-element ?hidden="${this.menu != 'map_menu'}" name="Map"></map-element> -->
+    <map-element ?hidden="${this.menu != 'map_menu'}" name="Map"></map-element>
     <swiper-element ?hidden="${this.webId == null || this.menu != 'swipper_menu'}" name="Swiper"></swiper-element>
-<div class="row">
+    <div class="row">
     <users-element ?hidden="${this.menu != 'users_menu'}" name="Users" connexionFile="${this.connexionFile}" ></users-element>
-</div>
+    </div>
     <br><br>    <br><br>    <br><br>
 
-  </div>
+    </div>
     <div class="navbar">
     <a href="#users" name="users_menu" @click="${this.menuChanged}">Users</a>
     <a href="#map" name="map_menu" @click=${this.menuChanged}>Map</a>
@@ -186,7 +186,7 @@ menuChanged(e){
 async webIdChanged(webId){
   this.webId = webId
   if (webId != null){
-    this.menu="map_menu" //"profile_menu"
+    this.menu="profile_menu" //"profile_menu"
     //  this.updateProfile();
     console.log("Send connected")
     var dateIso = new Date().toISOString()
@@ -196,10 +196,8 @@ async webIdChanged(webId){
     //  await data[url].dct$modified != undefined ?
     await data[url].dct$modified.set(dateIso)
     // : await data[url].dct$modified.add(dateIso);
-
-
   }else{
-    this.menu = "map_menu"
+    this.menu = "users_menu"
   }
 }
 
