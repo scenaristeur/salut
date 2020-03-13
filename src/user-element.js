@@ -50,32 +50,30 @@ class UserElement extends LitElement {
   ${this.user.locality} / ${this.user.country}<br>
   ${this.user.organization} / ${this.user.role}<br>
   </p>
+  </div>
+
+  </div>
 
 
+
+  <div class="card-body">
+  <div class="row">
   ${this.user.interests != undefined ?
     html `
-    <p>
+
     Interests :
     <div class="row">
-    <ul class="list-group list-group-flush">
+
     ${this.user.interests.map((interest,index) => html`
-      <li class="list-group-item list-group-item-primary 3">
-      ${interest}</li>
+      <button type="button" class="btn btn-outline-info btn-sm">
+      ${interest}</button>
       `)}
-      </ul>
+
       </div>
-      </p>
+    
       `
       :html``
-    }
-    </div>
-
-    </div>
-
-
-
-    <div class="card-body">
-
+    }</div>
     <p class="card-text">
     ${this.user.description}
     </p>

@@ -26,7 +26,6 @@ class InterestsElement extends LitElement {
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
     <div class="container-fluid">
     ${this.something}
-    ""  ${this.profile_url}()
     <div class="row">
 
     <div class="input-group mb-3">
@@ -37,7 +36,7 @@ class InterestsElement extends LitElement {
     placeholder="Interest" aria-label="Interest"
     aria-describedby="interest-label">
     <div class="input-group-append">
-    <button id="submit_btn" class="btn btn-primary" type="button" @click=${this.submit}>Submit
+    <button id="submit_btn" class="btn btn-primary" type="button" @click=${this.submit}>Add
     <span id="submit_spinner" class="spinner-border spinner-border-sm" hidden role="status" aria-hidden="true"></span>
     </button>
     </div>
