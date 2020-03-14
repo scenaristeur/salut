@@ -11,12 +11,14 @@ class PicsuploadElement extends LitElement {
     return {
       name: {type: String},
       something: {type: String},
+      file: {type: Object}
     };
   }
 
   constructor() {
     super();
     this.something = "Picsupload Element"
+    this.file = {}
   }
 
   render(){
@@ -39,8 +41,8 @@ class PicsuploadElement extends LitElement {
 
   compress(e) {
     console.log(e)
-let app = this
-  //  const width = 500;
+    let app = this
+    //  const width = 500;
     //const height = 300;
     const width = 300;
 
@@ -53,23 +55,25 @@ let app = this
       img.src = event.target.result;
       img.onload = () => {
         const elem = app.shadowRoot.getElementById('view');
-      //  elem.width = width;
-      //  elem.height = height;
-      const scaleFactor = width / img.width;
-      elem.width = width;
-      elem.height = img.height * scaleFactor;
+        //  elem.width = width;
+        //  elem.height = height;
+        const scaleFactor = width / img.width;
+        elem.width = width;
+        elem.height = img.height * scaleFactor;
         const ctx = elem.getContext('2d');
         // img.width and img.height will contain the original dimensions
         ctx.drawImage(img, 0, 0, width, img.height * scaleFactor); //height);
         ctx.canvas.toBlob((blob) => {
-          const file = new File([blob], fileName, {
+          app.file = new File([blob], fileName, {
             type: 'image/jpeg',
             lastModified: Date.now()
           });
         }, 'image/jpeg', 1);
+              console.log("New File to upload",app.file)
       },
       reader.onerror = error => console.log(error);
-      //  console.log("New File to upload",file)
+
+
     };
   }
 

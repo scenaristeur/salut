@@ -5,7 +5,7 @@ import data from "@solid/query-ldflex";
 import { namedNode } from '@rdfjs/data-model';
 //import './localisation-element.js'
 import './interests-element.js'
-import './picsupload-element.js'
+
 
 class ProfileElement extends LitElement {
 
@@ -40,7 +40,7 @@ class ProfileElement extends LitElement {
     <a href="${this.webId}" target="_blank">${this.profile.name}</a>
     <span id="spinner" class="spinner-border spinner-border-sm" hidden role="status" aria-hidden="true"></span>
     </h4>
-
+    Locate me / don't locate me / delete my position / make my location private
     <div class="input-group mb-3">
     <div class="input-group-prepend">
     <label class="input-group-text" for="lang">Lang</label>
@@ -183,11 +183,6 @@ class ProfileElement extends LitElement {
     <interests-element name="Interests" profile_url=${this.profile.url}></interests-element>
     </div>
 
-    <div class="row">
-    <picsupload-element name="Picsupload" profile_url=${this.profile.url}></picsupload-element>
-    </div>
-
-
     </div>
     `;
   }
@@ -287,7 +282,7 @@ async  updateProfile(){
   const inbox = await data.user.inbox;
   this.profile.storage = `${storage}`
   this.profile.url = this.profile.storage+"public/salut/profile.ttl#me"
-  this.agent.send('Interests',  {action:"profileUrlChanged", url: this.profile.url});
+  this.agent.sendMulti(['Interests', 'Post'],  {action:"profileUrlChanged", url: this.profile.url});
 
   let test_profile = await data[this.profile.url]
   await data[this.profile.url].dct$publisher.add(namedNode("https://salut.solid.community/"))

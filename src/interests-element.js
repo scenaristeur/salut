@@ -45,20 +45,15 @@ class InterestsElement extends LitElement {
     </div>
 
     <div class="row">
-    <ul class="list-group list-group-horizontal">
+
     ${this.interests.map((interest,index) => html`
-      <li class="list-group-item list-group-item-primary 3">
+      <button type="button" class="btn btn-outline-info btn-sm">
       ${interest}
       <i class="fas fa-trash-alt" index="${index}" @click="${this.delete}"></i>
-
-      </li>
+      </button>
       `)}
 
-      </ul>
       </div>
-
-
-
       `;
     }
 

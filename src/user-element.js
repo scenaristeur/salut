@@ -50,6 +50,18 @@ class UserElement extends LitElement {
   ${this.user.locality} / ${this.user.country}<br>
   ${this.user.organization} / ${this.user.role}<br>
   </p>
+
+  <div class="row">
+  <button type="button" class="btn btn-outline-info btn-sm">
+  Mail (todo)
+  <i class="fas fa-envelope-square" @click="${this.sendMail}"></i>
+  </button>
+  <button type="button" class="btn btn-outline-info btn-sm">
+  Friends(todo)
+  <i class="fas fa-envelope-square" @click="${this.sendMail}"></i>
+  </button>
+  </div>
+
   </div>
 
   </div>
@@ -60,7 +72,7 @@ class UserElement extends LitElement {
   <div class="row">
   ${this.user.interests != undefined ?
     html `
-
+    <div class="container">
     Interests :
     <div class="row">
 
@@ -70,14 +82,16 @@ class UserElement extends LitElement {
       `)}
 
       </div>
-    
+      </div>
       `
       :html``
     }</div>
+
     <p class="card-text">
     ${this.user.description}
     </p>
-    <a type="button" href="${this.user.webId}" target="_blank" class="btn btn-outline-primary">More</a>
+    <a type="button" href="${this.user.webId}" target="_blank" class="btn btn-outline-primary">Pod</a>
+    <button type="button" class="btn btn-outline-primary" f_webId="${this.user.webId}" @click="${this.showMore}">More</button>
     <button type="button" class="btn btn-outline-primary" f_webId="${this.user.webId}" @click="${this.addFriend}">Add to my Friends</button>
 
     </div>

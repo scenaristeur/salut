@@ -8,7 +8,9 @@ import './friends-element.js'
 import './map-element.js'
 import './profile-element.js'
 import './swiper-element.js'
+import './post-element.js'
 import './users-element.js'
+import './mailbox-element.js'
 
 class AppElement extends LitElement {
 
@@ -74,19 +76,30 @@ class AppElement extends LitElement {
     <friends-element ?hidden="${this.webId == null || this.menu != 'friends_menu'}" name="Friends"></friends-element>
     <!--  <map-element ?hidden="${this.menu != 'map_menu'}" name="Map"></map-element> -->
     <map-element ?hidden="${this.menu != 'map_menu'}" name="Map"></map-element>
-    <swiper-element ?hidden="${this.webId == null || this.menu != 'swipper_menu'}" name="Swiper"></swiper-element>
+    <swiper-element ?hidden="${this.webId == null || this.menu != 'swiper_menu'}" name="Swiper"></swiper-element>
+
+    <div class="row">
+    <post-element ?hidden="${this.webId == null || this.menu != 'post_menu'}" name="Post"></post-element>
+    </div>
     <div class="row">
     <users-element ?hidden="${this.menu != 'users_menu'}" name="Users" connexionFile="${this.connexionFile}" ></users-element>
+    </div>
+    <div class="row">
+    <mailbox-element ?hidden="${this.menu != 'mailbox_menu'}" name="Mailbox"></mailbox-element>
     </div>
     <br><br>    <br><br>    <br><br>
 
     </div>
     <div class="navbar">
-    <a href="#users" name="users_menu" @click="${this.menuChanged}">Users</a>
-    <a href="#map" name="map_menu" @click=${this.menuChanged}>Map</a>
-    <a href="#swipper" name="swipper_menu" @click=${this.menuChanged} ?hidden="${this.webId == null}">Swipper</a>
+    <a href="#users" name="users_menu" @click="${this.menuChanged}">Users <i class="fas fa-users"></i></a>
+    <a href="#map" name="map_menu" @click=${this.menuChanged}>Map <i class="fas fa-map-marked-alt"></i></a>
+    <a href="#swiper" name="swiper_menu" @click=${this.menuChanged} ?hidden="${this.webId == null}">Swiper</a>
+    <a href="#post" name="post_menu" @click=${this.menuChanged} ?hidden="${this.webId == null}">Post</a>
     <a href="#profile" name="profile_menu" @click=${this.menuChanged} ?hidden="${this.webId == null}">Profile</a>
     <a href="#friends" name="friends_menu" @click=${this.menuChanged} ?hidden="${this.webId == null}">Friends</a>
+    <a href="#mailbox" name="mailbox_menu" @click=${this.menuChanged} ?hidden="${this.webId == null}">Mailbox <i class="fas fa-envelope-open-text"></i></a>
+
+
     </div>
 
     <!--  <footer class="footer">
@@ -99,8 +112,8 @@ class AppElement extends LitElement {
     <li class="nav-item" name="map_menu" @click=${this.menuChanged}>
     <a class="nav-link" name="map_menu" href="#">Map</a>
     </li>
-    <li class="nav-item" name="swipper_menu" @click=${this.menuChanged} ?hidden="${this.webId == null}">
-    <a class="nav-link" name="swipper_menu" href="#">Swipper</a>
+    <li class="nav-item" name="swiper_menu" @click=${this.menuChanged} ?hidden="${this.webId == null}">
+    <a class="nav-link" name="swiper_menu" href="#">swiper</a>
     </li>
     <li class="nav-item" name="profile_menu"  @click=${this.menuChanged} ?hidden="${this.webId == null}">
     <a class="nav-link" name="profile_menu" href="#">Profile</a>
