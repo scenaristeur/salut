@@ -37,7 +37,7 @@ class FlowElement extends LitElement {
 
     <div class="container-fluid">
     <div class="card-columns">
-    ${this.notes.map((note,index) => html`
+    ${this.notes.reverse().map((note,index) => html`
       <note-view-element name="${'Note'+index}" .note=${note}>Loading...</note-view-element>
       `)}
       </div>
@@ -76,8 +76,12 @@ class FlowElement extends LitElement {
     this.lastUpdate = Date.now()
     let notes = []
     for await (const note_url of data[this.flow].subjects){
-      for await (const property of note_url.properties){
-        console.log(`${property}`);
+      let note = {}
+      note.id = `${note_url}`.substring(this.flow.length+1)
+
+      note.url = `${note_url}`
+    /*  for await (const property of note_url.properties){
+        console.log(`${property}`);*/
         /*http://www.w3.org/1999/02/22-rdf-syntax-ns#type flow-element.js:67
         http://schema.org/creator flow-element.js:67
         http://schema.org/dateCreated flow-element.js:67
@@ -91,43 +95,14 @@ class FlowElement extends LitElement {
         http://purl.org/stuff/rev#rating flow-element.js:67
 
         */
-      }
-      let date = await data[note_url].schema$dateCreated
-      let type = await data[note_url].rdf$type
-      let creator = await data[note_url].schema$creator
-      let label = await data[note_url].rdfs$label
-      let actor = await data[note_url].as$actor
-      let name = await data[note_url].as$name
-      let target = await data[note_url].as$target // !! could have many targets
-      let object = await data[note_url].as$object //
-      let text = await data[note_url].schema$text
-      let inReplyTo = await data[note_url].as$inReplyTo
-      let rating = await data[note_url]['http://purl.org/stuff/rev#rating']
+      //}
 
-      console.log("note", `${note_url}`, `${date}`, `${type}`,
-      `${creator}`, `${label}`, `${actor}`, `${name}` , `${target}`
-      , `${object}`, `${text}`, `${inReplyTo}`, `${rating}` );
-      let note = {}
-      note.id = `${note_url}`.substring(this.flow.length+1)
-
-      note.url = `${note_url}`
-      note.date = `${date}`
-      note.type = `${type}`
-      note.creator = `${creator}`
-      note.label = `${label}`
-      note.actor = `${actor}`
-      note.name = `${name}`
-      note.target = `${target}`
-      note.object = `${object}`
-      note.text = `${text}`
-      note.inReplyTo = `${inReplyTo}`
-      note.rating = `${rating}`
-      console.log(note)
+    //  console.log(note)
       notes = [...notes, note]
-      notes.sort(function(a, b){
+    /*  notes.sort(function(a, b){
         return a.id < b.id;
-      });
-      this.notes = notes
+      });*/
+this.notes = notes
       /*  let user = {}
       user.webId = `${connection_user}`.substring(this.connexionFile.length+1)
       let connection = await data[connection_user].dct$modified
@@ -138,13 +113,68 @@ class FlowElement extends LitElement {
       //console.log(docs)
     }*/
   }
+for(var i= 0; i<this.notes.length; i++){
+  let n = this.notes[i]
+
+  let date = await data[n.url].schema$dateCreated
+  let type = await data[n.url].rdf$type
+  let creator = await data[n.url].schema$creator
+  let label = await data[n.url].rdfs$label
+  let actor = await data[n.url].as$actor
+  let name = await data[n.url].as$name
+  let target = await data[n.url].as$target // !! could have many targets
+  let object = await data[n.url].as$object //
+  let text = await data[n.url].schema$text
+  let inReplyTo = await data[n.url].as$inReplyTo
+  let rating = await data[n.url]['http://purl.org/stuff/rev#rating']
+  n.date = `${date}`
+  n.type = `${type}`
+  n.creator = `${creator}`
+  n.label = `${label}`
+  n.actor = `${actor}`
+  n.name = `${name}`
+  n.target = `${target}`
+  n.object = `${object}`
+  n.text = `${text}`
+  n.inReplyTo = `${inReplyTo}`
+  n.rating = `${rating}`
+//  console.log(n)
+}
+this.requestUpdate()
   //this.notes = notes
   /*users.sort(function(a, b){
   return a.connection < b.connection;
 });
 app.users = users
 console.log(app.users)*/
+/*     let date = await data[note_url].schema$dateCreated
+    let type = await data[note_url].rdf$type
+    let creator = await data[note_url].schema$creator
+    let label = await data[note_url].rdfs$label
+    let actor = await data[note_url].as$actor
+    let name = await data[note_url].as$name
+    let target = await data[note_url].as$target // !! could have many targets
+    let object = await data[note_url].as$object //
+    let text = await data[note_url].schema$text
+    let inReplyTo = await data[note_url].as$inReplyTo
+    let rating = await data[note_url]['http://purl.org/stuff/rev#rating']
 
+  /*  console.log("note", `${note_url}`, `${date}`, `${type}`,
+    `${creator}`, `${label}`, `${actor}`, `${name}` , `${target}`
+    , `${object}`, `${text}`, `${inReplyTo}`, `${rating}` );*/
+
+  /*  note.date = `${date}`
+    note.type = `${type}`
+    note.creator = `${creator}`
+    note.label = `${label}`
+    note.actor = `${actor}`
+    note.name = `${name}`
+    note.target = `${target}`
+    note.object = `${object}`
+    note.text = `${text}`
+    note.inReplyTo = `${inReplyTo}`
+    note.rating = `${rating}`
+    */
 
 
 

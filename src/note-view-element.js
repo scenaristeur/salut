@@ -14,7 +14,7 @@ class NoteViewElement extends LitElement {
   constructor() {
     super();
     this.something = "Note Element"
-    this.note = {}
+    this.note = {"text": "L o A d I n G . . ."}
   }
 
   render(){
@@ -32,7 +32,7 @@ class NoteViewElement extends LitElement {
 
     <div class="col mb-4 main">
     <div class="card h-100">
-    <h4 title="${JSON.stringify(this.note)}">${this.note.label}</h4>
+    <h4>${this.note.label}</h4>
     ${this.note.id},
     <p>
   <!--  ${new Date(this.date).toLocaleString([], {year: '2-digit', month: '2-digit', day: '2-digit',hour: '2-digit', minute:'2-digit'})}
@@ -54,7 +54,7 @@ ${this.note.date}  <br>
   firstUpdated(){
     var app = this;
     this.agent = new HelloAgent(this.name);
-    console.log(this.agent)
+  //  console.log(this.agent)
     this.agent.receive = function(from, message) {
       //  console.log("messah",message)
       if (message.hasOwnProperty("action")){
@@ -68,7 +68,7 @@ ${this.note.date}  <br>
         }
       }
     };
-    
+
   }
 
   webIdChanged(webId){

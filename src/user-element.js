@@ -109,7 +109,7 @@ class UserElement extends LitElement {
   }
 
   async addFriend(e){
-    console.log(this.user.webId)
+  //  console.log(this.user.webId)
     try{
       await data.user.friends.add(namedNode(this.user.webId))
       alert(this.user.name+" has been added to your friends")
@@ -125,7 +125,7 @@ class UserElement extends LitElement {
   async firstUpdated(){
     var app = this;
     this.agent = new HelloAgent(this.name);
-    console.log(this.agent)
+  //  console.log(this.agent)
     this.agent.receive = function(from, message) {
       //  console.log("messah",message)
       if (message.hasOwnProperty("action")){

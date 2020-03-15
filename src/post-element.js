@@ -1,5 +1,6 @@
 import { LitElement, html } from 'lit-element';
 import { HelloAgent } from './agents/hello-agent.js';
+import * as auth from 'solid-auth-client';
 //import { solid, schema, rdf, rdfs } from 'rdf-namespaces';
 import { namedNode } from '@rdfjs/data-model';
 import  data  from "@solid/query-ldflex";
@@ -17,7 +18,8 @@ class PostElement extends LitElement {
     return {
       name: {type: String},
       something: {type: String},
-      profile_url: {type: String}
+      profile_url: {type: String},
+      log: {type: String}
     };
   }
 
@@ -25,8 +27,10 @@ class PostElement extends LitElement {
     super();
     this.something = "Post Element"
     this.profile_url = ""
-    this.fileClient = SolidFileClient;
-    console.log(this.fileClient)
+    // const auth = solid.auth    // or in node : const auth =  require('solid-auth-cli')
+    this.fileClient  = new SolidFileClient(auth)
+    this.log="Use this form to post text, image, sound, video, triple, or graph to your POD &/or to Agora POD"
+    //  console.log("Update Solid file client to new version",this.fileClient)
   }
 
   render(){
@@ -78,8 +82,9 @@ class PostElement extends LitElement {
     </style>
     <div class="container">
     <div class="row">
-<br>
-Agora : <a href="https://scenaristeur.github.io/compagent-tuto/" target="_blank">See the spogs on Agora</a>
+
+    <br>
+    Agora : <a href="https://scenaristeur.github.io/compagent-tuto/" target="_blank">See the spogs on Agora</a>
     <label class="sr-only" for="title">Title</label>
     <div class="input-group mb-2">
     <input id="title" class="form-control" type="text" value="${this.title}" placeholder="Title">
@@ -141,7 +146,7 @@ Agora : <a href="https://scenaristeur.github.io/compagent-tuto/" target="_blank"
     data-onstyle="success"
     data-offstyle="danger"
     data-width="150"
-      data-size="sm">
+    data-size="sm">
     </div>
 
     <div>
@@ -158,9 +163,12 @@ Agora : <a href="https://scenaristeur.github.io/compagent-tuto/" target="_blank"
 
     </div>
     <div class="col">
-    <button type="button" class="btn btn-primary" primary @click=${this.submit}>Submit <i class="far fa-paper-plane"></i></button>
-    <span id="spinner" class="spinner-border spinner-border-sm" hidden role="status" aria-hidden="true"></span>
+    <button id="submit_btn" type="button" class="btn btn-primary" primary @click=${this.submit}>Submit <i class="far fa-paper-plane"></i></button>
 
+    </div>
+    <div>
+    <span id="spinner" class="spinner-border spinner-border-sm" hidden role="status" aria-hidden="true"></span>
+    <span>${this.log}</span>
     </div>
     <!--
     <button type="button" class="cancel btn btn-primary" @click="${this.toggleWrite}"><i class="fas fa-window-close"></i> </button>-->
@@ -174,6 +182,8 @@ Agora : <a href="https://scenaristeur.github.io/compagent-tuto/" target="_blank"
 
 
   async submit(){
+    this.shadowRoot.getElementById("submit_btn").disabled = true
+    this.shadowRoot.getElementById("spinner").hidden = false
     var date = new Date(Date.now())
     var id = date.getTime()
     var title = this.shadowRoot.getElementById('title').value.trim();
@@ -189,20 +199,19 @@ Agora : <a href="https://scenaristeur.github.io/compagent-tuto/" target="_blank"
     console.log(date, id, title, tags, agora_switch, priv, content, file, triples)
     this.shadowRoot.getElementById('title').value = ""
     this.shadowRoot.getElementById('tags').value = ""
+    let webId = await data.user
     let storage = await data.user.storage
-    console.log(`${storage}`)
-      let webId = await data.user
-      console.log(`${webId}`)
+
     var userActivity = storage+"public/spoggy/activity.ttl#"+id
-    console.log("Creation ", userActivity)
+    this.log = "Creation "+ userActivity
     await data[userActivity].as$name.set(title)
     await data[userActivity].rdfs$label.set(title)
     await data[userActivity].schema$dateCreated.set(date.toISOString())
     await data[userActivity].rdf$type.add(namedNode('https://www.w3.org/ns/activitystreams#Create'))
 
-console.log("activity created")
+    this.log = "activity created"
     if (agora_switch == false){
-      console.log("create agora ref")
+      this.log = "create agora ref"
       var agoraActivity = "https://agora.solid.community/public/spoggy/activity.ttl#"+id
       await data[agoraActivity].as$name.add(title)
       await data[agoraActivity].rdfs$label.add(title)
@@ -211,52 +220,51 @@ console.log("activity created")
       await data[agoraActivity].as$actor.add(namedNode(webId))
       await data[agoraActivity].as$target.add(namedNode(userActivity))
       //  inReplyTo!= null &&  inReplyTo.length > 0 ? await data[agoraActivity].as$inReplyTo.add(namedNode(inReplyTo)) : "";
-  console.log("agora ref ok")
+      this.log = "agora ref ok"
     }
 
     if (content.length > 0){
-        console.log("create note")
+      this.log = "create note"
       var userNote = storage+"public/Notes/"+id+".ttl"
       await data[userNote].schema$text.add(content);
       await data[userNote].rdf$type.add(namedNode('https://www.w3.org/ns/activitystreams#Note'))
       await data[userActivity].schema$text.add(content);
       await data[userActivity].as$object.add(namedNode(userNote))
-  console.log("note created")
+      this.log = "note created"
       if (agora_switch == false){
-          console.log("create agora content ")
+        this.log = "create agora content "
         await data[agoraActivity].schema$text.add(content);
         await data[agoraActivity].as$object.add(namedNode(userNote))
-          console.log("agora content")
+        this.log = "agora content"
       }
     }
 
     if (file != undefined){
-        console.log("create file")
+      this.log = "create media file"
       var contentType = file.contentType
       var newFilename = file.name // r.message.newFilename
       var classe = "Document"//r.message.type
       var userMedia = storage+"public/spoggy/"+classe+"/"+newFilename
-      console.log("creation ",userMedia)
+      this.log = "creation "+userMedia
       await this.sendFile(userMedia, file, contentType)
       await  data[userActivity].as$object.add(namedNode(userMedia))
       await  data[agoraActivity].as$object.add(namedNode(userMedia))
-  console.log("file created")
+      this.log = "file created"
     }
-    //this.shadowRoot.getElementById("content").value = ""
-    //  this.shadowRoot.getElementById("submit_btn").disabled = false
-    //  this.shadowRoot.getElementById("spinner").hidden = true
+    //  this.shadowRoot.getElementById("note").value = ""
+    this.shadowRoot.getElementById("submit_btn").disabled = false
+    this.shadowRoot.getElementById("spinner").hidden = true
   }
 
   sendFile(uri, file, contentType){
-      console.log(this.fileClient)
     this.fileClient.createFile(uri, file, contentType)
     .then(
       success =>{
-        console.log(success)
+        this.log = success
         //  this.agent.send("Messages", {action: "info", status: "Save file OK", file: success})
       },
       err => {
-        console.log(err)
+        this.log = err
       });
     }
 
