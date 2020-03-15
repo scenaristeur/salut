@@ -23,7 +23,7 @@ class FriendsElement extends LitElement {
   render(){
     return html`
     <h4>${this.something}</h4>
-    to do, need help, see <a href="https://github.com/scenaristeur/">https://github.com/scenaristeur/</a>
+    to do, need help, see <a href="https://github.com/scenaristeur/salut">https://github.com/scenaristeur/salut</a>
     `;
   }
 

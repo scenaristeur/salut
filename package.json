@@ -29,6 +29,7 @@
     "ol": "^6.2.1",
     "shighl-elements": "github:scenaristeur/shighl-elements",
     "solid-auth-client": "^2.4.1",
+    "solid-file-client": "^1.0.2",
     "swiper": "^5.3.6",
     "webpack": "^4.42.0",
     "webpack-cli": "^3.3.11",

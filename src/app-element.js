@@ -11,6 +11,7 @@ import './swiper-element.js'
 import './post-element.js'
 import './users-element.js'
 import './mailbox-element.js'
+import './flow-element.js'
 
 class AppElement extends LitElement {
 
@@ -85,6 +86,9 @@ class AppElement extends LitElement {
     <users-element ?hidden="${this.menu != 'users_menu'}" name="Users" connexionFile="${this.connexionFile}" ></users-element>
     </div>
     <div class="row">
+    <flow-element ?hidden="${this.menu != 'flow_menu'}" name="Users" flowPodId="${this.flowPodId}" ></flow-element>
+    </div>
+    <div class="row">
     <mailbox-element ?hidden="${this.menu != 'mailbox_menu'}" name="Mailbox"></mailbox-element>
     </div>
     <br><br>    <br><br>    <br><br>
@@ -98,7 +102,7 @@ class AppElement extends LitElement {
     <a href="#profile" name="profile_menu" @click=${this.menuChanged} ?hidden="${this.webId == null}">Profile</a>
     <a href="#friends" name="friends_menu" @click=${this.menuChanged} ?hidden="${this.webId == null}">Friends</a>
     <a href="#mailbox" name="mailbox_menu" @click=${this.menuChanged} ?hidden="${this.webId == null}">Mailbox <i class="fas fa-envelope-open-text"></i></a>
-
+    <a href="#flow" name="flow_menu" @click=${this.menuChanged}>Flow</a>
 
     </div>
 
@@ -199,7 +203,7 @@ menuChanged(e){
 async webIdChanged(webId){
   this.webId = webId
   if (webId != null){
-    this.menu="profile_menu" //"profile_menu"
+    this.menu="post_menu" //"profile_menu"
     //  this.updateProfile();
     console.log("Send connected")
     var dateIso = new Date().toISOString()

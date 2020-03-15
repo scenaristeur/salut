@@ -102,12 +102,12 @@ class InterestsElement extends LitElement {
     async profileUrlChanged(url){
       this.profile_url = url
       this.interests = []
-      console.log("GGGGGGGGGGGGGGG",this.profile_url)
+    //  console.log("GGGGGGGGGGGGGGG",this.profile_url)
       /*  for await (const interest of data[this.profile_url].foaf$topic_interest;
       interests.push(`${interest}`)
     }*/
     for await (const interest of data[this.profile_url].foaf$topic_interest){
-      console.log(`${interest}`);
+    //  console.log(`${interest}`);
       this.interests = [...this.interests, interest]
     }
     //this.interests = interests

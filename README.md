@@ -30,6 +30,8 @@ npm install scenaristeur/shighl-elements
 https://openlayers.org/en/latest/doc/
 https://openlayers.org/en/latest/doc/tutorials/bundle.html
 
+#  solid-file-client 
+createFile doesnot exist anymore ?
 
 # Ouverture du site
 - stockage de l'identifiant sur le pod salut
