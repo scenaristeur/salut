@@ -170,16 +170,12 @@ class UserElement extends LitElement {
 
 
     for await (const interest of data[profile_url].foaf$topic_interest){
-      console.log(`${interest}`);
+      //  console.log(`${interest}`);
       interests = [...interests, interest]
     }
     this.user.interests = interests
-    console.log("USER",this.user)
+    //  console.log("USER",this.user)
     this.requestUpdate()
-
-
-
-
   }
 
   webIdChanged(webId){

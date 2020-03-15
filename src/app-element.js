@@ -86,7 +86,11 @@ class AppElement extends LitElement {
     <users-element ?hidden="${this.menu != 'users_menu'}" name="Users" connexionFile="${this.connexionFile}" ></users-element>
     </div>
     <div class="row">
-    <flow-element ?hidden="${this.menu != 'flow_menu'}" name="Users" flowPodId="${this.flowPodId}" ></flow-element>
+    <flow-element
+    ?hidden="${this.menu != 'flow_menu'}"
+     name="Users"
+      flow="https://agora.solid.community/public/spoggy/activity.ttl"
+       ></flow-element>
     </div>
     <div class="row">
     <mailbox-element ?hidden="${this.menu != 'mailbox_menu'}" name="Mailbox"></mailbox-element>
@@ -203,7 +207,7 @@ menuChanged(e){
 async webIdChanged(webId){
   this.webId = webId
   if (webId != null){
-    this.menu="post_menu" //"profile_menu"
+    this.menu="flow_menu" //"profile_menu"
     //  this.updateProfile();
     console.log("Send connected")
     var dateIso = new Date().toISOString()

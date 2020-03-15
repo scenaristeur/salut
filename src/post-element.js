@@ -136,12 +136,12 @@ Agora : <a href="https://scenaristeur.github.io/compagent-tuto/" target="_blank"
     <input type="checkbox"
     id="privacy_switch"
     data-toggle="switchbutton"
-    checked data-onlabel="Private"
-    data-offlabel="Public"
+    checked data-onlabel="Private  (todo)"
+    data-offlabel="Public (todo)"
     data-onstyle="success"
     data-offstyle="danger"
     data-width="150"
-    data-size="sm">
+      data-size="sm">
     </div>
 
     <div>
