@@ -78,7 +78,8 @@ class PostElement extends LitElement {
     </style>
     <div class="container">
     <div class="row">
-
+<br>
+Agora : <a href="https://scenaristeur.github.io/compagent-tuto/" target="_blank">See the spogs on Agora</a>
     <label class="sr-only" for="title">Title</label>
     <div class="input-group mb-2">
     <input id="title" class="form-control" type="text" value="${this.title}" placeholder="Title">
@@ -166,6 +167,7 @@ class PostElement extends LitElement {
     </div>
     </div>
     </div>
+    <br>  <br>  <br>  <br>  <br>
     `;
   }
 
