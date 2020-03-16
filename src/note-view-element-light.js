@@ -36,13 +36,12 @@ class NoteViewElement extends LitElement {
 
     <div class="col mb-4 main">
     <div class="card h-100">
-    <h4>${this.note.label}</h4>
+    <h4>${this.note.title}</h4>
 
     <p>
-  ${this.note.date}<br>
-    ${this.note.creator}<br>
-    ${this.note.actor}<br>
-    ${this.note.url}
+
+    ${this.note.text}<br>
+    ${this.note.uri}
 
     </p>
     </div>
@@ -90,17 +89,16 @@ class NoteViewElement extends LitElement {
 
 
 }*/
-let date = await data[this.note.url].schema$dateCreated
-let type = await data[this.note.url].rdf$type
-let creator = await data[this.note.url].schema$creator
-let label = await data[this.note.url].rdfs$label
-let actor = await data[this.note.url].as$actor
-let name = await data[this.note.url].as$name
-let target = await data[this.note.url].as$target // !! could have many targets
-let object = await data[this.note.url].as$object //
-let text = await data[this.note.url].schema$text
-let inReplyTo = await data[this.note.url].as$inReplyTo
-let rating = await data[this.note.url]['http://purl.org/stuff/rev#rating']
+let date = await data[this.note.uri].schema$dateCreated
+let type = await data[this.note.uri].rdf$type
+let label = await data[this.note.uri].rdfs$label
+let actor = await data[this.note.uri].as$actor
+let name = await data[this.note.uri].as$name
+let target = await data[this.note.uri].as$target // !! could have many targets
+let object = await data[this.note.uri].as$object //
+let text = await data[this.note.uri].schema$text
+let inReplyTo = await data[this.note.uri].as$inReplyTo
+let rating = await data[this.note.uri]['http://purl.org/stuff/rev#rating']
 /*
 console.log("note",  `${date}`, `${type}`,
 `${creator}`, `${label}`, `${actor}`, `${name}` , `${target}`
@@ -111,8 +109,7 @@ console.log("note",  `${date}`, `${type}`,
 //  note.url = `${note}`
 this.note.date = `${date}`
 this.note.type = `${type}`
-this.note.creator = `${creator}`
-this.note.label = `${label}`
+this.note.title = `${label}`
 this.note.actor = `${actor}`
 this.note.name = `${name}`
 this.note.target = `${target}`
