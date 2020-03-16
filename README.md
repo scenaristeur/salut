@@ -26,11 +26,17 @@ git subtree push --prefix dist origin gh-pages
 npm install scenaristeur/shighl-elements
 
 ```
+
+# acl update
+```
+https://github.com/Otto-AA/solid-acl-utils
+```
+
 # OpenLayer Doc (openstreetmap)
 https://openlayers.org/en/latest/doc/
 https://openlayers.org/en/latest/doc/tutorials/bundle.html
 
-#  solid-file-client 
+#  solid-file-client
 createFile doesnot exist anymore ?
 
 # Ouverture du site

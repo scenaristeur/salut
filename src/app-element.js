@@ -207,7 +207,7 @@ menuChanged(e){
 async webIdChanged(webId){
   this.webId = webId
   if (webId != null){
-    this.menu="flow_menu" //"profile_menu"
+    this.menu="profile_menu" //"profile_menu"
     //  this.updateProfile();
     console.log("Send connected")
     var dateIso = new Date().toISOString()

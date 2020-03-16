@@ -5,6 +5,9 @@ import data from "@solid/query-ldflex";
 import { namedNode } from '@rdfjs/data-model';
 //import './localisation-element.js'
 import './interests-element.js'
+import './acl-element.js'
+
+
 
 
 class ProfileElement extends LitElement {
@@ -16,6 +19,7 @@ class ProfileElement extends LitElement {
       webId: {type: String},
       profile: {type: Object},
       locationFile: {type: String},
+
     };
   }
 
@@ -24,6 +28,7 @@ class ProfileElement extends LitElement {
     this.something = "Profile"
     this.profile = { name:"", lang: navigator.language, role: "", organization: "", locality: "", country: ""}
     this.locationFile = "https://salut.solid.community/public/log/location.ttl"
+
   }
 
   render(){
@@ -173,6 +178,10 @@ class ProfileElement extends LitElement {
     <label class="form-check-label" for="exampleCheck1">Check me out</label>
     </div>
     -->
+
+    <acl-element name="Acl"></acl-element>
+
+
     <button id="submit_btn" class="btn btn-primary" type="button" @click=${this.submit}>Submit</button>
 
     </div>
@@ -185,7 +194,7 @@ class ProfileElement extends LitElement {
 
     </div>
 
-      <br>  <br>  <br>  <br>  <br>
+    <br>  <br>  <br>  <br>  <br>
     `;
   }
 
@@ -249,6 +258,8 @@ this.shadowRoot.getElementById("spinner").hidden = true
 
 firstUpdated(){
   var app = this;
+
+
   this.agent = new HelloAgent(this.name);
   console.log(this.agent)
   this.agent.receive = function(from, message) {
